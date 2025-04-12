@@ -1,10 +1,10 @@
-import React from 'react';
-import ProductList from './components/ProductList'; // Corrected import path
-import Recommendations from './components/Recommendations'; // Corrected import path
-import Map from './components/Map'; // Corrected import path
+import React, { useState } from 'react';
+import ProductList from './components/ProductList';
+import Recommendations from './components/Recommendations';
+import Map from './components/Map';
 
 function App() {
-  const userPreferences = ['Cuisine', 'Artisanat'];
+  const [userPreferences, setUserPreferences] = useState(['Cuisine', 'Artisanat']);
 
   return (
     <div className="App">

@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Recommendations = ({ preferences }) => {
-  const allProducts = [
-    { id: 1, name: 'Plat local - Nyembwe', category: 'Cuisine' },
-    { id: 2, name: 'Sculpture en bois', category: 'Artisanat' },
-    { id: 3, name: 'Tissu traditionnel', category: 'Mode' }
-  ];
+  const [allProducts, setAllProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/data.json'); // Fetch from data.json
+        const data = await response.json();
+        setAllProducts(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const recommendedProducts = allProducts.filter(product =>
     preferences.includes(product.category)
@@ -16,7 +26,10 @@ const Recommendations = ({ preferences }) => {
       <h2>Recommandations pour vous</h2>
       <ul>
         {recommendedProducts.map((product) => (
-          <li key={product.id}>{product.name}</li>
+          <li key={product.id}>
+            <img src={product.imageUrl} alt={product.name} />
+            <div>{product.name}</div>
+          </li>
         ))}
       </ul>
     </div>

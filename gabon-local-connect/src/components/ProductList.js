@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ProductList = () => {
-  const products = [
-    { id: 1, name: 'Masque Gabonais', price: '15,000 CFA' },
-    { id: 2, name: 'Tapis artisanal', price: '25,000 CFA' },
-    { id: 3, name: 'Bijou traditionnel', price: '10,000 CFA' }
-  ];
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/data.json'); // Fetch from data.json
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div data-testid="product-list">
@@ -13,7 +23,10 @@ const ProductList = () => {
       <ul>
         {products.map((product) => (
           <li key={product.id}>
-            {product.name} - {product.price}
+            <img src={product.imageUrl} alt={product.name} />
+            <div>
+              {product.name} - {product.price}
+            </div>
           </li>
         ))}
       </ul>
